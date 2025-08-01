@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Alexander Kopetsch
+
+domain=$1
+owner=$2
+repo=$3
+
+# assert usage:
+if [ "$#" -ne 3 ]; then
+  script_name=$(basename "$0")
+  echo "Usage: $script_name <domain> <owner> <repo>"
+  echo "Example: $script_name github.com johndoe myrepo"
+  exit 1
+fi
+
+# git init
+mkdir $repo
+cd $repo
+git init -b main
+
+# git add
+echo "# $repo\n" > README.md
+git add .
+
+# git commit
+git commit -m "Initial commit"
+
+# git remote/push
+git remote add origin git@$domain:$owner/$repo.git
+git push -u origin main
